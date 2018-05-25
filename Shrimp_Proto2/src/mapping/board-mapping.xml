@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis-config.xml alias 사용 -->
+<mapper namespace = "boardMapper">
+
+	<!-- Board CRUD -->
+	
+	<!-- Create -->
+	<insert id="insert_Board" parameterType="boardEntity" >
+	insert into tb_board(
+		bcode,
+		bseq,
+		title,
+		useq,
+		article,
+		deleteart,
+		datetime
+		)
+	values (
+		#{bcode},
+		nextval('sq_bseq'),
+		#{title},
+		#{useq},
+		#{article},
+		#{deleteart},
+		now()
+		)
+	</insert>
+
+	<!-- Read -->
+	<select id="select_BoardOne" parameterType="int" resultType="boardEntity">
+	select
+		u.useq as useq,
+		u.nickname as nickname,
+		b.title as title,
+		b.article as article,
+		b.bseq as bseq
+	from
+		tb_board b, tb_user u
+	where
+		b.bseq = #{bseq}
+	and b.bcode = #{bcode}
+	and u.useq = #{useq}
+	</select>
+	
+	<select id="select_BoardPopular" parameterType="int" resultType="boardEntity">
+	select
+		u.useq as useq,
+		u.nickname as nickname,
+		b.title as title,
+		b.article as article,
+		b.bseq as bseq
+	from
+		tb_board b, tb_user u
+	where
+		b.bseq = #{bseq}
+	and
+		b.bcode = #{bcode}
+	and
+		u.useq = #{useq}
+	order by
+		vote desc, datetime desc
+	limit
+		1
+	</select>
+
+	<!-- Update -->
+	<update id="update_BoardOne" parameterType="boardEntity" >
+	update tb_board
+	set
+		"title" = #{title},
+		"article" = #{article},
+		"updatetime" = now()
+	where
+		"bseq" = #{bseq}
+	</update>
+
+	<!-- Delete -->
+	<delete id="delete_BoardOne" parameterType="int">
+	update tb_board
+	set
+		"deleteart" ='1' 
+	where
+		"bseq" = #{bseq}
+	</delete>
+
+	<!-- hit increment  -->
+	<update id="update_BoardHit" parameterType="int">
+	update tb_board
+	set
+		"hit" = "hit" + 1 
+	where
+		"bseq" = #{bseq}
+	</update>
+	
+	<!-- paging -->
+	<select id="select_boardList" parameterType="int" resultType="boardEntityList">
+	select
+		b.bseq as bseq,
+		b.title as title,
+		u.useq as useq,
+		u.nickname as nickname,
+		b.datetime as datetime
+		b.hit as hit
+	from
+		tb_board b,
+		tb_user u
+	where
+		b.deleteart =0
+	and
+		b.userno = u.userno
+	order by
+		b.bseq desc
+	limit
+		10 offset #{rownum}
+	</select>
+
+</mapper>

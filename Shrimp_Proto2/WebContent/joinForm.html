@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PAGE settings -->
+<link rel="icon"
+	href="https://templates.pingendo.com/assets/Pingendo_favicon.ico">
+<title>새우젓 클럽</title>
+<meta name="description"
+	content="Free Bootstrap 4 Pingendo Flat template made for app and softwares.">
+<meta name="keywords"
+	content="Pingendo app flat free template bootstrap 4">
+<!-- CSS dependencies -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+	type="text/css">
+<link rel="stylesheet" href="resources/css/theme.css">
+<link rel="stylesheet" href="resources/css/logindropdown.css">
+<!-- Script: Make my navbar transparent when the document is scrolled to top -->
+<script src="resources/js/navbar-ontop.js"></script>
+<!-- Script: Animated entrance -->
+<script src="resources/js/animate-in.js"></script>
+</head>
+
+<body>
+	<!-- 상단 네비게이션 바-->
+	<div id="shrimpNav">
+		<nav class=" nav navbar fixed-top bg-white">
+			<!--navbar-expand-md  -->
+			<div class="container justify-content-center">
+				<div class="navbar-nav text-center ">
+					<!-- collapse  navbar-collapse    -->
+					<ul class="nav">
+						<li class="nav-item mx-2"><a class="nav-link"
+							href="index3.html"><b>MAIN</b></a></li>
+						<li class="nav-item mx-2"><a class="nav-link"
+							href="index3_dukjil.html"><b>DUKJIL</b></a></li>
+						<li class="nav-item mx-2"><a class="nav-link" href="#"><b>YOUTUBE</b></a>
+						</li>
+						<li class="nav-item mx-2"><a class="nav-link" href="#"><b>TWITTER</b></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<!-- title -->
+	<div class="pt-5 mt-5">
+		<div class="container">
+			<div class="row">
+				<!--제목 row-->
+				<div class="col-12">
+					<h4 class="display-4">회원가입</h4>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!--입력 폼  -->
+  <div class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <form class="form-control bg-light py-3" method="post" action="joinmember.do" id="needs-validation" novalidate>
+            <!-- 이메일 입력 -->
+            <div class="form-group my-2">
+              <label class="col-sm-3 form-control-label" for="inputEmail">이메일</label>
+              <!-- <div class="col-sm-6"> -->
+              <input class="form-control" id="inputEmail" type="email" placeholder="이메일" name="email" required>
+              <div class="invalid-feedback" id="emailResult">
+                이메일 형식을 확인해 주세요
+              </div>
+              <!-- </div> -->
+            </div>
+
+            <!-- 비밀번호 입력  -->
+            <div class="form-group my-2">
+              <label class="form-control-label" for="inputPassword">비밀번호 <small>(숫자, 특수문자 포함 8자 이상)</small></label>
+              <input class="form-control" id="inputPassword" type="password" placeholder="비밀번호" name="passwd" required>
+              <div class="invalid-feedback" id="passwordResult">
+                비밀번호를 입력해 주세요.
+              </div>
+            </div>
+
+            <!-- 비밀번호 확인  -->
+            <div class="form-group my-2">
+              <label class="form-control-label" for="inputPasswordCheck">비밀번호 확인</label>
+              <input class="form-control" id="inputPasswordCheck" type="password" placeholder="비밀번호 확인" required>
+              <span class="emailHelp small" id="passwordCheckResult"></span>
+            </div>
+
+            <!-- 닉네임 입력  -->
+            <div class="form-group my-2">
+              <label class="form-control-label" for="inputName">닉네임</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="inputNickname" placeholder="닉네임" name="nickname" required/>
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" id="nicknameButton">닉네임 도금 <i class="fa fa-user-o" aria-hidden="true"></i></a>
+                </span>
+              </div>
+              <small class="" id="nicknameCheck"></small>
+              <input type="hidden" name="nickIsCheck" value="N"/>
+            </div>
+
+            <!-- 핸드폰 번호 입력 -->
+            <div class="form-group my-2">
+              <label class="form-control-label" for="inputNumber">휴대폰 번호</label>
+              <!-- <div class="col-sm-6"> -->
+              <div class="input-group">
+                <input type="tel" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mobile" required/>
+                <span class="input-group-btn">
+                      <button class="btn btn-success">인증번호 전송<i class="fa fa-mail-forward spaceLeft"></i></button>
+                    </span>
+              </div>
+              <!-- </div> -->
+            </div>
+
+            <!-- 핸드폰 인증 번호 입력 -->
+            <div class="form-group my-2">
+              <label class="form-control-label" for="inputNumberCheck">인증번호 확인</label>
+              <!-- <div class="col-sm-6"> -->
+              <div class="input-group">
+                <input class="form-control" id="inputNumberCheck" type="text" placeholder="인증번호">
+                <span class="input-group-btn">
+                  <button class="btn btn-success" type="button">인증번호 확인<i class="fa fa-edit spaceLeft"></i></button>
+                </span>
+              </div>
+              <p class="help-block">전송된 인증번호를 입력해주세요.</p>
+              <!-- </div> -->
+            </div>
+
+            <div class="form-group py-2">
+              <div class="col-sm-12 text-center">
+                <button class="btn btn-primary" type="submit">회원가입<i class="fa fa-check spaceLeft"></i></button>
+                <button class="btn btn-danger" href="index3.html">가입취소<i class="fa fa-times spaceLeft"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+	<!-- 하단 고정 네비게이션 바 -->
+	<div id="shrimpNav">
+		<nav class=" nav navbar fixed-bottom bg-dark px-1">
+			<!--navbar-expand-md  -->
+			<div class="container justify-content-center ">
+				<div class="row nav text-center">
+					<!-- collapse  navbar-collapse    -->
+					<ul class="nav">
+						<li class="nav-item"><a class="btn btn-primary mx-1"
+							href="#writePostModal" data-toggle="modal">POST</a></li>
+						<li class="nav-item"><a class="btn btn-primary mx-1"
+							href="#searchModal" data-toggle="modal">SEARCH</a></li>
+						<li class="nav-item"><a class="btn btn-primary mx-1"
+							href="#loginModal" data-toggle="modal">LOGIN</a></li>
+						<li class="nav-item"><a class="btn btn-primary mx-1"
+							href="#inboxModal" data-toggle="modal">INBOX</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Login Modal -->
+	<div class="modal hide" id="loginModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="display: none; text-align: center">
+		<div class="modal-body">
+			<div class="container loginmodal-container ">
+
+				<div class="row justify-content-center">
+					<div class="col-md-6 my-5 py-3 card"
+						style="background-color: #F7F7F7;">
+						<h2 class="">
+							<b>Login via</b>
+						</h2>
+						<div class="social-buttons">
+							<a href="#" class="btn btn-goo px-1"><i class="fa fa-google"></i>
+								Google</a> <a href="#" class="btn btn-tw px-1"><i
+								class="fa fa-twitter"></i> Twitter</a>
+						</div>
+						or
+						<form class="form" role="form" method="post" action="login.do"
+							accept-charset="UTF-8" id="login-nav">
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputEmail2">Email
+									address</label> <input type="email" class="form-control"
+									id="exampleInputEmail2" placeholder="Email address"
+									name="email" required>
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputPassword2">Password</label>
+								<input type="password" class="form-control"
+									id="exampleInputPassword2" placeholder="Password" name="passwd"
+									required>
+								<div class="help-block text-right">
+									<a href="">Forget the password ?</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-block">Sign
+									in</button>
+							</div>
+							<div class="checkbox">
+								<label> <input type="checkbox"> keep me
+									logged-in
+								</label>
+							</div>
+						</form>
+						<div class="bottom text-center">
+							New here ? <a href="joinForm.html"><b>Join Us</b></a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer fixed-bottom justify-content-center bg-dark">
+			<button type="button" class="close list-group-item-primary"
+				data-dismiss="modal" aria-hidden="true">×</button>
+		</div>
+	</div>
+
+	<!-- writePostModal -->
+	<div class="modal hide" id="writePostModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-body fixed-bottom mb-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 btn btn-primary">
+						<a href="writePostLink.html" class="text-white">LINK</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="writePostImage.html" class="text-white">IMAGE</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="writePostVideo.html" class="text-white">VIDEO</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="writePostText.html" class="text-white">TEXT</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer fixed-bottom justify-content-center bg-dark">
+			<button type="button" class="close list-group-item-primary"
+				data-dismiss="modal" aria-hidden="true">×</button>
+		</div>
+	</div>
+
+	<!-- SearchModal -->
+	<div class="modal hide" id="searchModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-body fixed-bottom mb-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 justify-content-center">
+						<form class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="text"
+								placeholder="Search">
+							<button class="btn my-2 my-sm-0 btn-primary" type="submit">Search</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer fixed-bottom justify-content-center bg-dark">
+			<button type="button" class="close list-group-item-primary"
+				data-dismiss="modal" aria-hidden="true">×</button>
+		</div>
+	</div>
+
+	<!-- InboxModal -->
+	<div class="modal hide" id="inboxModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-body fixed-bottom mb-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 btn btn-primary">
+						<a href="writeMessage.html" class="text-white">메세지쓰기</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="recMessage.html" class="text-white">받은메세지</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="sendMessage.html" class="text-white">보낸메세지</a>
+					</div>
+					<div class="col-3 btn btn-primary">
+						<a href="writeMesToAdmin.html" class="text-white">관리자에게</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer fixed-bottom justify-content-center bg-dark">
+			<button type="button" class="close list-group-item-primary"
+				data-dismiss="modal" aria-hidden="true">×</button>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<!-- Footer -->
+	<div class="py-3 bg-dark">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<p class="lead">Sign up to our newsletter for the latest news</p>
+					<form class="form-inline">
+						<div class="form-group">
+							<input type="email" class="form-control"
+								placeholder="Your e-mail here">
+						</div>
+						<button type="submit" class="btn ml-2 btn-secondary">Subscribe</button>
+					</form>
+				</div>
+				<div class="row">
+					<div class="col-md-12 my-3 text-center">
+						<p class="text-muted">© Copyright 2017 Pingendo - All rights
+							reserved.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript dependencies -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+		crossorigin="anonymous"></script>
+	<!-- Script: Smooth scrolling between anchors in the same page -->
+	<script src="resources/js/smooth-scroll.js"></script>
+	
+	
+	 <script src="resources/js/joinForm.js"></script> 
+	
+	<script>
+	$(document).ready(function() {
+		
+	
+	$('#nicknameButton').click(function() {
+		//버튼을 클릭시 ajax 실행
+		$.ajax({
+			type: "GET",
+			url: "checkNickname.do",
+			dataType: "text",
+			data: {"nickname" : $("#inputNickname").val() },
+			success: function(data){
+				if(data === "1"){
+					$("input[name=nickIsCheck]").val("Y");
+					$("#nicknameCheck").removeClass();
+					$("#nicknameCheck").addClass("text-success");
+					$("#nicknameCheck").text("사용 가능합니다.");
+					
+					
+					
+				}else{
+					//input 값 지우고
+		              $("#inputNickname").val("");
+		              $("input[name=nickIsCheck]").val("N");
+		              $("#nicknameCheck").removeClass();
+		              $("#nicknameCheck").addClass("text-danger");
+		              $("#nicknameCheck").text("사용할 수 없습니다.");
+		              
+		              
+				}
+			}
+		});
+		
+	});
+	});
+	</script>
+	
+</body>
+
+</html>

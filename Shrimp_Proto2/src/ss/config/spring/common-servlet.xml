@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 컨트롤러 -->
+	<mvc:annotation-driven />
+	<context:annotation-config />
+	<context:component-scan base-package="ss.controller.user" />
+	<context:component-scan base-package="ss.controller.board" />
+	<context:component-scan base-package="ss.controller.message" />
+
+
+	<!-- 파일 업로드에 필요한 bean -->
+	<!--<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		파일업로드 용량
+		<property name="maxUploadSize" value="3145728" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>-->
+
+	<!-- 파일 업로드를 위한 디렉토리 설정
+	String uploadPath = new String("C:\Users\Playdata\Documents\project7\3001 
+		SaltedShrimp\Shrimp_Proto2\WebContent\resources\upload") -->
+	<!--<bean id="uploadPath" class="java.lang.String">
+		파일업로드 디렉토리
+		<constructor-arg
+			value="C:\Users\Playdata\Documents\project7\3001 SaltedShrimp\Shrimp_Proto2\WebContent\resources\upload" />
+	</bean> -->
+
+
+	<!-- viewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- 로그인 유무 인터셉터 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/mypage.do" /><!-- "/**/*.do*" usermain.do -->
+			<mvc:mapping path="/message/inbox.do" />
+			<bean class="ss.util.intercepter.SessionCheckIntercepter" />
+		</mvc:interceptor>
+		<!-- <mvc:interceptor> <mvc:mapping path="/message/in.do"/> <bean class="ss.util.intercepter.SessionCheckIntercepter"/> 
+			</mvc:interceptor> -->
+	</mvc:interceptors>
+	<!-- 이거를 해야 찬노가 json으로 보낸 뭐시기를 뭐시기 하는 거라고 함 -->
+	<mvc:annotation-driven />
+
+</beans>

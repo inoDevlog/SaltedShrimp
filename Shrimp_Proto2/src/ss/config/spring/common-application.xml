@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="ss.biz.user"/>
+	<context:component-scan base-package="ss.biz.board"/>
+	<context:component-scan base-package="ss.biz.message"/>
+	<context:component-scan base-package="ss.dao.user"/>
+	<context:component-scan base-package="ss.dao.board"/>
+	<context:component-scan base-package="ss.dao.message"/>
+	
+	
+<!-- 	<context:annotation-config/>
+	<context:component-scan base-package="ss.biz.user"/>
+	<context:component-scan base-package="ss.biz.board"/>
+	<context:component-scan base-package="ss.biz.message"/>
+	<context:component-scan base-package="ss.dao.user"/>
+	<context:component-scan base-package="ss.dao.board"/>
+	<context:component-scan base-package="ss.dao.message"/>
+	
+	<context:annotation-config />
+	<context:component-scan base-package="ss.biz.user" />
+	<context:component-scan base-package="ss.biz.board" />
+	<context:component-scan base-package="ss.biz.message" />
+	<context:component-scan base-package="ss.dao.user" />
+	<context:component-scan base-package="ss.dao.board" />
+	<context:component-scan base-package="ss.dao.message" /> -->
+
+	<!-- PostgreSQL setting -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.postgresql.Driver" />
+		<property name="url"
+			value="jdbc:postgresql://saltedshrimpproject.cevq8fshcg0q.ap-northeast-2.rds.amazonaws.com:5432/saltedshrimp_postgresql_db" />
+		<property name="username" value="seokjin" />
+		<property name="password" value="shrimp2018" />
+	</bean>
+
+	<!-- myBatis (USER, MESSAGE 모듈) -->
+	<bean id="ssfb" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mapping/user-mapping.xml</value>
+				<value>classpath:mapping/message-mapping.xml</value>
+				<value>classpath:mapping/board-comment-mapping.xml</value>
+				<value>classpath:mapping/board-vote-mapping.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="ssfb" />
+	</bean>
+
+	<!-- jdbc -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+
+</beans>

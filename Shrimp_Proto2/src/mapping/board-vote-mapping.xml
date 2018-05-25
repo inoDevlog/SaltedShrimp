@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis-config.xml alias 사용 -->
+<mapper namespace="boardVoteMapper">
+
+	<!-- BoardVote CRUD -->
+
+	<!-- Create -->
+	<!-- user가 기존에 vote를 했는지 확인 -->
+	<select id="checkVoteByUseq" parameterType="ss.vo.board.VoteTableCheckVO" resultType="int"><!-- 쿼리문 확인 필요 -->
+		select count(*)
+		from
+			tb_vote
+		where
+			"useq" = #{useq}
+		and
+			"bseq" = #{bseq}
+	</select>
+	
+	<!-- 기존 vote record가 없다면 insert -->
+	<insert id="insert_VoteTable" parameterType="ss.vo.board.BoardVoteViewVO">
+	insert into tb_vote(
+		vseq,
+		bseq,
+		useq,
+		datetime,
+		vote
+		)
+	values(
+		nextval('sq_vseq'),
+		#{bseq},
+		#{useq},
+		now(),
+		#{vote}
+		)
+	</insert>
+	
+	
+	<!-- Update VOTE TABLE-->
+	<update id="update_VoteTable" parameterType="ss.vo.board.BoardVoteViewVO">
+	update tb_vote
+	set
+		vote = #{vote}
+	where
+		"useq" = #{useq}
+	and
+		"bseq" = #{bseq}
+	</update>
+	
+	<!-- Update BOARD TABLE-->  <!-- Board 관련 나머지들은 JDBC를 이용하고 잇으므로 그냥 하나만 현재 Mapping xml에 추가 -->
+	<update id="update_BoardTable" parameterType="ss.vo.board.BoardVoteViewVO">
+	update tb_board
+	set
+		votesum = votesum+(#{votesum})
+	where
+		"bseq" = #{bseq}
+	</update>
+	
+	<!-- SELECT BOARD TABLE VOTESUM -->
+	<select id="select_BoardVoteSum" parameterType="int" resultType="int">
+	select
+		votesum
+	from
+		tb_board	
+	where
+		"bseq" = #{bseq}
+	</select>
+	
+	<!-- SELECT VOTE TABLE VOTE COLOM   (투표 이력이 존재한다는 가정)-->
+	<select id="select_Vote" parameterType="ss.vo.board.VoteTableCheckVO" resultType="int">
+	select vote from tb_vote where "useq" = #{useq} and "bseq"=#{bseq}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis-config.xml alias 사용 -->
+<mapper namespace="messageMapper">
+
+	<!-- Message CRUD -->
+
+	<!-- Create -->
+	<insert id="insert_Message" parameterType="ss.vo.message.MessageVO">
+		insert into tb_message(
+		mseq,
+		recv_nick,
+		send_nick,
+		message,
+		send_date,
+		read_date,
+		read_msg,
+		recv_del,
+		send_del
+		)
+		values (
+		nextval('sq_mseq'),
+		#{recv_nick},
+		#{send_nick},
+		#{message},
+		now(),
+		now(),
+		0,
+		0,
+		0
+		)
+	</insert>
+	
+	<update id="deletesendmsg" parameterType="ss.vo.message.MessageVO">
+		update tb_message
+			set send_del = 1
+			where send_nick = #{send_nick} and recv_nick = #{recv_nick}
+	</update>
+	
+	<update id="deleterecvmsg" parameterType="ss.vo.message.MessageVO">
+		update tb_message
+			set recv_del = 1
+			where send_nick = #{recv_nick} and recv_nick = #{send_nick}
+	</update>
+ 	
+	<select id="addmsg" resultType="ss.vo.message.MessageVO" parameterType="ss.vo.message.MessageVO">
+		select message, mseq
+			from 
+				tb_message
+			where
+				send_nick = #{recv_nick} and
+				recv_nick = #{send_nick} and
+				mseq > #{lastmseq}
+			order by
+				mseq asc
+	</select>
+	
+	<!-- <select id="get_sendmsgList" parameterType="ss.vo.message.MessageVO" resultType="ss.vo.message.MessageVO">
+		SELECT
+			mseq,
+			recv_nick,
+			message
+		from
+			tb_message
+		where 
+	        send_nick = #{send_nick}
+		order by
+			mseq desc
+ 		limit
+			10 offset #{start}
+	</select> -->
+	
+	
+	
+	<select id="countMessage" parameterType="ss.vo.message.MessageVO" resultType="int">
+		select count(total.*) 
+         from(
+            select mseq
+                from tb_message
+                where
+                   send_nick = #{send_nick}
+               and
+                  recv_nick = #{recv_nick}
+               and send_del = 0
+                union all
+             select mseq
+                from tb_message
+                where
+                   send_nick = #{recv_nick}
+                and
+                   recv_nick = #{send_nick}
+                and recv_del = 0
+           ) as total
+	</select>
+	
+	<select id="previousMsg" parameterType="ss.vo.message.MessageVO" resultType="ss.vo.message.MessageVO">
+		
+		select prev.mseq, prev.message, prev.send_nick, prev.recv_nick
+			from( 
+				select mseq, message, send_nick, recv_nick
+				    from tb_message
+				    where
+				       send_nick = #{send_nick}
+				   and
+				      recv_nick = #{recv_nick}
+				   and send_del = 0
+				    union all
+			    select mseq, message, send_nick, recv_nick
+				    from tb_message
+				    where
+				       send_nick = #{recv_nick}
+				    and
+				       recv_nick = #{send_nick}
+				    and recv_del = 0
+				    order by
+		       			mseq desc
+		       		limit 10 offset #{start}) as prev
+       	order by
+       		prev.mseq asc
+	</select>
+	
+	<select id="countMessageMember" parameterType="ss.vo.message.MessageVO"  resultType="int">
+	select count(A.*) from
+		(SELECT
+			distinct recv_nick
+		FROM
+			tb_message
+		where
+			send_nick = #{send_nick}
+			and
+			send_del = 0		
+		union
+		SELECT
+			distinct send_nick
+		FROM
+			tb_message
+		where
+			recv_nick = #{send_nick}
+			and
+			recv_del = 0)as A
+	</select>
+	
+	
+	<select id="getSendUserList" parameterType="ss.vo.message.MessageVO" resultType="ss.vo.message.MessageVO">
+		select A.* from
+		(select distinct
+			recv_nick
+		from
+			tb_message
+		where 
+	        send_nick = #{send_nick} and
+	        send_del = 0
+	    union
+	    select distinct
+			send_nick
+		from
+			tb_message
+		where 
+	        recv_nick = #{send_nick} and
+	        recv_del = 0)as A
+	</select>
+	
+
+	
+	<select id="getOneDialogue" parameterType="ss.vo.message.MessageVO" resultType="ss.vo.message.MessageVO">
+	select first.mseq, first.message, first.send_nick, first.recv_nick
+		from( 
+		select mseq, message, send_nick, recv_nick
+		    from tb_message
+		    where
+		       send_nick = #{send_nick}
+		   and
+		      recv_nick = #{recv_nick}
+		   and send_del = 0
+		   
+		   union all
+	    select mseq, message, send_nick, recv_nick
+		    from tb_message
+		    where
+		       send_nick = #{recv_nick}
+		    and
+		       recv_nick = #{send_nick}
+		    and recv_del = 0
+		    order by
+       			mseq desc
+       		limit 10) as first
+       	order by
+       		first.mseq asc
+	</select>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis-config.xml alias 사용 -->
+<mapper namespace="boardCommentMapper">
+
+	<!-- Board Comment CRUD -->
+
+	<!-- Create -->
+	<insert id="insert_boardComment" parameterType="ss.vo.board.BoardCommentVO">
+	insert into tb_comment(
+		bseq,
+		cseq,
+		useq,
+		comment,
+		comord,
+		datetime
+		)
+	values(
+		#{bseq},
+		nextval('sq_cseq'),
+		#{useq},
+		#{comment},
+		(select count(*)+1
+			from tb_comment
+				where "bseq" = #{bseq}
+		),
+		now()
+		)
+	</insert>
+	
+	<!-- Read -->
+	<select id="selectList_boardComment" parameterType="Integer" resultType="ss.vo.board.BoardCommentVO">
+	<![CDATA[
+	select
+		c.bseq as bseq,
+		c.cseq as cseq,
+		c.useq as useq,
+		c.comment as comment,
+		c.comord as comord,
+		case when current_date::date - c.datetime::date<1 then to_char(c.datetime, 'YYYY/MM/DD HH24:MI:SS')
+		else to_char(c.datetime, 'YYYY/MM/DD') end as datetime,
+		c.vote as vote,
+		u.nickname as nickname		
+	from
+		tb_comment c, tb_user u
+	where
+		"deletecom"=0
+	and
+		"bseq"=#{bseq}
+	and
+		c.useq=u.useq
+	order by
+		comord desc
+	]]>
+	</select>
+	
+	<!-- Delete -->
+	<delete id="delete_boardComment" parameterType="ss.vo.board.BoardCommentVO">
+		delete
+		from
+			tb_comment
+		where
+			"cseq"=#{cseq}
+		and
+			"useq"=#{useq}
+	</delete>
+</mapper>

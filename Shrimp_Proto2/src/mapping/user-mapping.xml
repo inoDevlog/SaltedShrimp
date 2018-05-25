@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 매핑 파일에 별칭 지정 -->
+<mapper namespace="userMapper">
+	<!-- 별칭 : userVO -> ss.vo.user.UserVO -->
+
+	<select id="selectLogin_userVO" parameterType="ss.vo.user.UserVO" resultType="int">
+		select count(*)
+		from tb_user
+		where
+			"email" = #{email}
+		and
+			"passwd" =#{passwd}
+	</select>
+
+	<select id="selectAll_userVO" resultType="ss.vo.user.UserVO">
+		select *
+		from tb_user
+	</select>
+
+	<select id="selectOne_userVO" parameterType="int" resultType="ss.vo.user.UserVO">
+		select *
+		from tb_user
+		where "useq" = #{useq}
+	</select>
+
+	<select id="checkUserByEmail" parameterType="ss.vo.user.UserVO" resultType="ss.vo.user.UserVO">
+		select *
+		from tb_user
+		where "email" = #{email}
+	</select>
+
+	<select id="checkUserByNickname" parameterType="java.lang.String" resultType="int">
+		select count(*)
+		from tb_user
+		where "nickname" = #{nickname}
+	</select>
+
+	<insert id="insert_userVO" parameterType="ss.vo.user.UserVO">
+		insert into tb_user
+		values(
+			nextval('sq_useq'),
+			#{email},
+			#{passwd},
+			#{nickname},
+			#{mobile},
+			now()
+			)
+	</insert>
+
+	<update id="update_userVO" parameterType="ss.vo.user.UserVO">
+		update tb_user
+		set
+			email = #{email},
+			passwd = #{passwd},
+			nickname = #{nickname},
+			mobile = #{mobile}
+		where
+			"useq" = #{useq}
+			
+	</update>
+
+</mapper>
